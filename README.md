@@ -3,11 +3,24 @@
 Setup
 ==
 
-TODO: Automate using [Service Management API](http://docs.marklogic.com/REST/client/service-management)
-
 Set up a new REST API at http://10.2.3.7:8000/appservices
    -> Select Database -> Configure -> Add REST API Instance (servername = marklogic, port = 8003)
 
+or
+
+```
+cat << 'EOF' > rest_service.config
+{
+  "rest-api": {
+    "name": "marklogic-rest",
+    "database": "Documents",
+    "port": "8003"
+  }
+}
+EOF
+
+curl --anyauth --user admin:admin -X POST -d@'./rest_service.config' -i -H "Content-type: application/json" http://10.2.3.7:8000/v1/rest-apis
+```
 
 Example data from http://www.hl7.org/implement/standards/fhir/integrated-examples.html
 
