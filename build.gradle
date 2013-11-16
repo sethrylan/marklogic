@@ -1,0 +1,56 @@
+// Establish version and status
+ext {
+    githubProjectName = rootProject.name
+    versions = [
+            javasimon: '3.3.0',
+            slf4j: '1.7.1'
+    ]
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    apply from: file('gradle/buildscript.gradle'), to: buildscript 
+}
+
+allprojects {
+    repositories { 
+        mavenLocal()
+        mavenCentral()
+        maven { url 'http://developer.marklogic.com/maven2' }
+    }
+}
+
+apply from: file('gradle/convention.gradle')
+apply from: file('gradle/check.gradle')
+
+subprojects {
+    group = "org.lenition.${githubProjectName}" // TEMPLATE: Set to organization of project
+
+    dependencies {
+//        compile     'javax.ws.rs:jsr311-api:1.1.1'
+//        compile     'com.sun.jersey:jersey-core:1.11'
+//        compile "org.slf4j:slf4j-api:$versions.slf4j",
+//                "org.slf4j:slf4j-simple:$versions.slf4j"
+
+        testCompile 'junit:junit:4.10',
+                    "org.javasimon:javasimon-core:$versions.javasimon"
+//        testCompile 'org.testng:testng:6.1.1'
+//        testCompile 'org.mockito:mockito-core:1.8.5'
+    }
+}
+
+project(':client') {
+    apply plugin: 'groovy'
+    dependencies {
+        compile 'com.google.guava:guava:15.0'
+        compile 'com.google.code.gson:gson:2.2.2'
+        compile 'commons-logging:commons-logging:1.1.2'
+        compile 'org.codehaus.groovy:groovy-all:2.0.8'
+        compile 'com.sun.jersey:jersey-client:1.11'
+        compile 'com.marklogic:client-api-java:2.0-1'
+
+    }
+}
